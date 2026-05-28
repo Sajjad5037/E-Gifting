@@ -22,19 +22,19 @@ layout="wide"
 # -----------------------------
 
 if "logged_in_user" not in st.session_state:
-    st.session_state.logged_in_user = None
+st.session_state.logged_in_user = None
 
 if "connected_services" not in st.session_state:
-    st.session_state.connected_services = []
+st.session_state.connected_services = []
 
 if "workflow_logs" not in st.session_state:
-    st.session_state.workflow_logs = []
+st.session_state.workflow_logs = []
 
 if "webhook_events" not in st.session_state:
-    st.session_state.webhook_events = []
+st.session_state.webhook_events = []
 
 if "clients" not in st.session_state:
-    st.session_state.clients = []
+st.session_state.clients = []
 
 # -----------------------------
 
@@ -94,7 +94,11 @@ if selected_page == "Login":
 st.title("Client Login Portal")
 
 user_email = st.text_input("Email")
-user_password = st.text_input("Password", type="password")
+
+user_password = st.text_input(
+    "Password",
+    type="password"
+)
 
 if st.button("Login"):
 
@@ -103,21 +107,28 @@ if st.button("Login"):
         st.session_state.logged_in_user = user_email
 
         if user_email not in st.session_state.clients:
-            st.session_state.clients.append(user_email)
+
+            st.session_state.clients.append(
+                user_email
+            )
 
         create_log_entry(
             action_name="User Login",
             status_name="Success"
         )
 
-        st.success(f"Logged in as {user_email}")
+        st.success(
+            f"Logged in as {user_email}"
+        )
 
     else:
         st.error("Please provide credentials.")
 
 if st.session_state.logged_in_user:
+
     st.info(
-        f"Current User: {st.session_state.logged_in_user}"
+        f"Current User: "
+        f"{st.session_state.logged_in_user}"
     )
 ```
 
@@ -133,6 +144,7 @@ elif selected_page == "Connect Services":
 st.title("External Service Connections")
 
 if not st.session_state.logged_in_user:
+
     st.warning("Please log in first.")
     st.stop()
 
@@ -150,14 +162,20 @@ selected_service_name = st.selectbox(
 
 if st.button("Connect Service"):
 
-    if selected_service_name not in st.session_state.connected_services:
+    if (
+        selected_service_name
+        not in st.session_state.connected_services
+    ):
 
         st.session_state.connected_services.append(
             selected_service_name
         )
 
         create_log_entry(
-            action_name=f"Connected {selected_service_name}",
+            action_name=(
+                f"Connected "
+                f"{selected_service_name}"
+            ),
             status_name="Connected"
         )
 
@@ -165,12 +183,15 @@ if st.button("Connect Service"):
             event_name="service.connected",
             payload_data={
                 "service": selected_service_name,
-                "user": st.session_state.logged_in_user
+                "user": (
+                    st.session_state.logged_in_user
+                )
             }
         )
 
         st.success(
-            f"{selected_service_name} connected successfully."
+            f"{selected_service_name} "
+            f"connected successfully."
         )
 
     else:
@@ -178,7 +199,10 @@ if st.button("Connect Service"):
 
 st.subheader("Connected Services")
 
-for service_name in st.session_state.connected_services:
+for service_name in (
+    st.session_state.connected_services
+):
+
     st.write(f"- {service_name}")
 ```
 
@@ -194,6 +218,7 @@ elif selected_page == "Workflow Triggers":
 st.title("Workflow Trigger Center")
 
 if not st.session_state.logged_in_user:
+
     st.warning("Please log in first.")
     st.stop()
 
@@ -218,12 +243,15 @@ if st.button("Run Workflow"):
         event_name="workflow.triggered",
         payload_data={
             "workflow": workflow_action_name,
-            "user": st.session_state.logged_in_user
+            "user": (
+                st.session_state.logged_in_user
+            )
         }
     )
 
     st.success(
-        f"{workflow_action_name} workflow triggered."
+        f"{workflow_action_name} "
+        f"workflow triggered."
     )
 ```
 
@@ -238,8 +266,13 @@ elif selected_page == "Webhook Events":
 ```
 st.title("Webhook Event Viewer")
 
-if len(st.session_state.webhook_events) == 0:
-    st.info("No webhook events received yet.")
+if len(
+    st.session_state.webhook_events
+) == 0:
+
+    st.info(
+        "No webhook events received yet."
+    )
 
 else:
 
@@ -248,7 +281,8 @@ else:
     ):
 
         with st.expander(
-            f"{event_data['event']} | {event_data['received_at']}"
+            f"{event_data['event']} | "
+            f"{event_data['received_at']}"
         ):
 
             st.json(event_data)
@@ -277,7 +311,11 @@ total_logs_count = len(
     st.session_state.workflow_logs
 )
 
-metric_column_1, metric_column_2, metric_column_3 = st.columns(3)
+(
+    metric_column_1,
+    metric_column_2,
+    metric_column_3
+) = st.columns(3)
 
 metric_column_1.metric(
     "Clients",
@@ -296,8 +334,13 @@ metric_column_3.metric(
 
 st.subheader("Workflow Activity Logs")
 
-if len(st.session_state.workflow_logs) == 0:
-    st.info("No workflow activity yet.")
+if len(
+    st.session_state.workflow_logs
+) == 0:
+
+    st.info(
+        "No workflow activity yet."
+    )
 
 else:
 
