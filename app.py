@@ -22,19 +22,19 @@ layout="wide"
 # -----------------------------
 
 if "logged_in_user" not in st.session_state:
-st.session_state.logged_in_user = None
+    st.session_state.logged_in_user = None
 
 if "connected_services" not in st.session_state:
-st.session_state.connected_services = []
+    st.session_state.connected_services = []
 
 if "workflow_logs" not in st.session_state:
-st.session_state.workflow_logs = []
+    st.session_state.workflow_logs = []
 
 if "webhook_events" not in st.session_state:
-st.session_state.webhook_events = []
+    st.session_state.webhook_events = []
 
 if "clients" not in st.session_state:
-st.session_state.clients = []
+    st.session_state.clients = []
 
 # -----------------------------
 
