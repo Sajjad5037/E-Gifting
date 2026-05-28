@@ -324,4 +324,4 @@ elif selected_page == "Admin Dashboard":
                 f"{log_data['action']} "
                 f"({log_data['status']})"
             )
-```
+
